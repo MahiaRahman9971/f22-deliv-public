@@ -11,9 +11,16 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import { categories } from '../utils/categories';
 import { addEntry } from '../utils/mutations';
+import { updateEntry } from '../utils/mutations';
+import { deleteEntry } from '../utils/mutations';
+import Sort from '../components/Sort';
 
 // Modal component for individual entries.
 
@@ -35,6 +42,8 @@ export default function EntryModal({ entry, type, user }) {
    const [link, setLink] = useState(entry.link);
    const [description, setDescription] = useState(entry.description);
    const [category, setCategory] = React.useState(entry.category);
+   const [rating, setRating] = React.useState(entry.rating);
+   const [editing, setEditing] = useState(false);
 
    // Modal visibility handlers
 
@@ -44,6 +53,7 @@ export default function EntryModal({ entry, type, user }) {
       setLink(entry.link);
       setDescription(entry.description);
       setCategory(entry.category);
+      setRating(entry.rating);
    };
 
    const handleClose = () => {
@@ -59,16 +69,44 @@ export default function EntryModal({ entry, type, user }) {
          description: description,
          user: user?.displayName ? user?.displayName : "GenericUser",
          category: category,
+         rating: rating,
          userid: user?.uid,
       };
-
       addEntry(newEntry).catch(console.error);
       handleClose();
    };
 
    // TODO: Add Edit Mutation Handler
+   const handleEdit = () => {
+      setEditing(true);
+      const currentEntry = {
+         name: name,
+         link: link,
+         description: description,
+         user: user?.displayName ? user?.displayName : "GenericUser",
+         category: category,
+         rating: rating,
+         id: entry.id,
+      };
+      updateEntry(currentEntry).catch(console.error);
+      handleClose();
+   };
 
    // TODO: Add Delete Mutation Handler
+   const handleDelete = () => {
+      setEditing(true);
+      const currentEntry = {
+         name: name,
+         link: link,
+         description: description,
+         user: user?.displayName ? user?.displayName : "GenericUser",
+         category: category,
+         rating: rating,
+         id: entry.id,
+
+      };
+      deleteEntry(currentEntry).catch(console.error);
+   };
 
    // Button handlers for modal opening and inside-modal actions.
    // These buttons are displayed conditionally based on if adding or editing/opening.
@@ -79,7 +117,7 @@ export default function EntryModal({ entry, type, user }) {
          <OpenInNewIcon />
       </IconButton>
          : type === "add" ? <Button variant="contained" onClick={handleClickOpen}>
-            Add entry
+            Add entry 
          </Button>
             : null;
 
@@ -87,6 +125,8 @@ export default function EntryModal({ entry, type, user }) {
       type === "edit" ?
          <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleDelete}>Delete Entry</Button>
+            <Button variant="contained" onClick={handleEdit}>Confirm Edits</Button>
          </DialogActions>
          : type === "add" ?
             <DialogActions>
@@ -97,8 +137,11 @@ export default function EntryModal({ entry, type, user }) {
 
    return (
       <div>
+         <Stack spacing={2} direction="row">
          {openButton}
-         <Dialog open={open} onClose={handleClose}>
+         <Sort/>
+         </Stack>
+         <Dialog open={open} onClose={handleClose} edit={editing}>
             <DialogTitle>{type === "edit" ? name : "Add Entry"}</DialogTitle>
             <DialogContent>
                {/* TODO: Feel free to change the properties of these components to implement editing functionality. The InputProps props class for these MUI components allows you to change their traditional CSS properties. */}
@@ -145,6 +188,21 @@ export default function EntryModal({ entry, type, user }) {
                      {categories.map((category) => (<MenuItem value={category.id}>{category.name}</MenuItem>))}
                   </Select>
                </FormControl>
+               {/* <Ratings ratingNum={entry.rating }/> */}
+               <Box
+                  sx={{
+                     '& > legend': { mt: 5 },
+                  }}
+                  >
+                  <Typography component="legend">Webstite Rating</Typography>
+                  <Rating
+                     name="simple-controlled"
+                     value={rating}
+                     onChange={(event, newValue) => {
+                        setRating(newValue);
+                     }}
+                  />
+               </Box>
             </DialogContent>
             {actionButtons}
          </Dialog>
