@@ -4,12 +4,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function Sort({entries}) {
-  const [sort, setsort] = React.useState('');
+export default function Sort({sort, setSortCallBack}) {
+//   const [sort, setsort] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event) => {
-    setsort(event.target.value);
+    setSortCallBack(event.target.value);
+    console.log("changing");
   };
 
   const handleClose = () => {
@@ -20,10 +21,7 @@ export default function Sort({entries}) {
     setOpen(true);
   };
 
-  const handleSort = () => {
-    entries.sort()
-    console.log(entries.sort())
-  }
+   // event listener  
 
   return (
     <div>
@@ -38,15 +36,14 @@ export default function Sort({entries}) {
           value={sort}
           label="Sort"
           onChange={handleChange}
-          sort={handleSort}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Name A-Z</MenuItem>
-          <MenuItem value={20}>Name Z-A</MenuItem>
-          <MenuItem value={30}>Rating 5-1</MenuItem>
-          <MenuItem value={30}>Rating 1-5</MenuItem>
+          <MenuItem value={0}>Name A-Z</MenuItem>
+          {/* <MenuItem value={1}>Name Z-A</MenuItem>
+          <MenuItem value={2}>Rating 5-1</MenuItem>
+          <MenuItem value={3}>Rating 1-5</MenuItem> */}
         </Select>
       </FormControl>
     </div>

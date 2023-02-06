@@ -14,13 +14,13 @@ import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+
 import { useState } from 'react';
 import { categories } from '../utils/categories';
 import { addEntry } from '../utils/mutations';
 import { updateEntry } from '../utils/mutations';
 import { deleteEntry } from '../utils/mutations';
-import Sort from '../components/Sort';
+
 
 // Modal component for individual entries.
 
@@ -136,10 +136,10 @@ export default function EntryModal({ entry, type, user }) {
 
    return (
       <div>
-         <Stack spacing={2} direction="row">
+         {/* <Stack spacing={2} direction="row"> */}
          {openButton}
-         <Sort entries={entry}/>
-         </Stack>
+         
+         {/* </Stack> */}
          <Dialog open={open} onClose={handleClose} edit={editing}>
             <DialogTitle>{type === "edit" ? name : "Add Entry"}</DialogTitle>
             <DialogContent>
