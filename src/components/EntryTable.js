@@ -9,33 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import EntryModal from './EntryModal';
 import Rating from '@mui/material/Rating';
 import { getCategory } from '../utils/categories';
-import Sort from '../components/Sort';
 
 // Table component that displays entries on home screen
 
-
-
-// function sortEntries(value, entries) {
-//    if (value === 0) {
-//       entries.sort();
-//    }
-// }
-
 export default function EntryTable({ entries }) {
-   const [sort, setsort] = React.useState(''); 
-
-   function sortEntries(value, entries) {
-      if (value === 0) {
-         entries.sort();
-      }
-   }
-
    return (
-      <div>
-      <Sort
-         // sort={entries.sort}
-         setSortCallBack={sortEntries(0, entries) => setSort(0)}
-      />
       <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -49,8 +27,6 @@ export default function EntryTable({ entries }) {
                </TableRow>
             </TableHead>
             <TableBody>
-               {/* {entries.sort()} */}
-               
                {entries.map((entry) => (
                   <TableRow
                      key={entry.id}
@@ -73,6 +49,5 @@ export default function EntryTable({ entries }) {
             </TableBody>
          </Table>
       </TableContainer>
-      </div>
    );
 }
