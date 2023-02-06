@@ -103,7 +103,6 @@ export default function EntryModal({ entry, type, user }) {
          category: category,
          rating: rating,
          id: entry.id,
-
       };
       deleteEntry(currentEntry).catch(console.error);
    };
@@ -139,7 +138,7 @@ export default function EntryModal({ entry, type, user }) {
       <div>
          <Stack spacing={2} direction="row">
          {openButton}
-         <Sort/>
+         <Sort entries={entry}/>
          </Stack>
          <Dialog open={open} onClose={handleClose} edit={editing}>
             <DialogTitle>{type === "edit" ? name : "Add Entry"}</DialogTitle>
@@ -188,20 +187,10 @@ export default function EntryModal({ entry, type, user }) {
                      {categories.map((category) => (<MenuItem value={category.id}>{category.name}</MenuItem>))}
                   </Select>
                </FormControl>
-               {/* <Ratings ratingNum={entry.rating }/> */}
                <Box
-                  sx={{
-                     '& > legend': { mt: 5 },
-                  }}
-                  >
+                  sx={{'& > legend': { mt: 5 },}}>
                   <Typography component="legend">Webstite Rating</Typography>
-                  <Rating
-                     name="simple-controlled"
-                     value={rating}
-                     onChange={(event, newValue) => {
-                        setRating(newValue);
-                     }}
-                  />
+                  <Rating name="simple-controlled" value={rating} onChange={(event, newValue) => {setRating(newValue);}}/>
                </Box>
             </DialogContent>
             {actionButtons}

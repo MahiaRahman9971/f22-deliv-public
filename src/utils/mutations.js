@@ -26,7 +26,6 @@ export async function addEntry(entry) {
 
 export async function updateEntry(entry) {
    // TODO: Create Mutation to Edit Entry
-   console.log(entry.rating)
    return updateDoc(doc(db, "entries", entry.id), {
       name: entry.name,
       link: entry.link,

@@ -21,11 +21,8 @@ export default function Sort({entries}) {
   };
 
   const handleSort = () => {
-    entries.sort(function(a, b) {
-        if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-        if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-        return 0;
-    })
+    entries.sort()
+    console.log(entries.sort())
   }
 
   return (
